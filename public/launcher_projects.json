@@ -7,7 +7,7 @@
   },
   {
     "name": "Tic Tac Toe Game",
-    "path": "/TicTacToeGame/index.js",
+    "path": "/TicTacToeGame/index.html",
     "description": "A classic Tic Tac Toe game for two players",
     "category": "Game"
   }
