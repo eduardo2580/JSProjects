@@ -2,7 +2,7 @@
   {
     "name": "Body Mass Index (BMI) Calculator",
     "path": "/BMIwebapp/index.html",
-    "description": "Calculate your BMI and get a nutritional plan",
-    "category": "WebApp"
+    "description": "Calculate your BMI and get a personalized nutritional plan",
+    "category": "webapp"
   }
 ]

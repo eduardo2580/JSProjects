@@ -1,15 +1,13 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 
 const I18N = {
   en: {
     title: "Eduardo's Projects",
-    subtitle: "Node.js Launcher",
+    subtitle: "Project Launcher",
     run: "Launch",
-    kill: "Stop",
     status_idle: "Ready",
-    status_running: "Running",
-    status_done: "Completed",
+    status_done: "Opened",
     status_error: "Error",
     hint: "Protected under Brazilian Law nº 9,610/98",
     search: "Search projects…",
@@ -17,17 +15,15 @@ const I18N = {
     game: "Games",
     puzzle: "Puzzles",
     card: "Cards",
+    webapp: "Web Apps",
     no_results: "No projects match your search.",
-    pid: "PID",
   },
   es: {
     title: "Proyectos de Eduardo",
-    subtitle: "Lanzador Node.js",
-    run: "Ejecutar",
-    kill: "Detener",
+    subtitle: "Lanzador de Proyectos",
+    run: "Abrir",
     status_idle: "Listo",
-    status_running: "Ejecutando",
-    status_done: "Completado",
+    status_done: "Abierto",
     status_error: "Error",
     hint: "Protegido por la Ley Brasileña nº 9.610/98",
     search: "Buscar proyectos…",
@@ -35,17 +31,15 @@ const I18N = {
     game: "Juegos",
     puzzle: "Puzzles",
     card: "Cartas",
+    webapp: "Apps Web",
     no_results: "No hay proyectos que coincidan.",
-    pid: "PID",
   },
   pt: {
     title: "Projetos do Eduardo",
-    subtitle: "Launcher Node.js",
-    run: "Iniciar",
-    kill: "Parar",
+    subtitle: "Lançador de Projetos",
+    run: "Abrir",
     status_idle: "Pronto",
-    status_running: "Executando",
-    status_done: "Finalizado",
+    status_done: "Aberto",
     status_error: "Erro",
     hint: "Protegido pela Lei Brasileira nº 9.610/98",
     search: "Buscar projetos…",
@@ -53,17 +47,17 @@ const I18N = {
     game: "Jogos",
     puzzle: "Puzzles",
     card: "Cartas",
+    webapp: "Web Apps",
     no_results: "Nenhum projeto encontrado.",
-    pid: "PID",
   },
 };
 
-const CATEGORY_ICONS = { game: "◈", puzzle: "◎", card: "◆", default: "◉" };
-const STATUS_COLORS = {
-  idle: "var(--text-dim)",
-  running: "var(--amber)",
-  done: "var(--green)",
-  error: "var(--red)",
+const CATEGORY_ICONS = {
+  game: "◈",
+  puzzle: "◎",
+  card: "◆",
+  webapp: "🌐",
+  default: "◉",
 };
 
 export default function Home() {
@@ -72,17 +66,23 @@ export default function Home() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
   const [statuses, setStatuses] = useState({});
-  const [pids, setPids] = useState({});
   const [loaded, setLoaded] = useState(false);
 
   const t = (key) => I18N[lang][key] || key;
 
   useEffect(() => {
     fetch("/launcher_projects.json")
-      .then((r) => r.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load projects");
+        return res.json();
+      })
       .then((data) => {
         setProjects(data);
         setLoaded(true);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoaded(true); // still show empty state
       });
   }, []);
 
@@ -96,44 +96,27 @@ export default function Home() {
     return matchSearch && matchFilter;
   });
 
-  const launchProject = async (path) => {
-    setStatuses((prev) => ({ ...prev, [path]: "running" }));
-    try {
-      const res = await fetch("/api/launch", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ path }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        setStatuses((prev) => ({ ...prev, [path]: "done" }));
-        if (data.pid) setPids((prev) => ({ ...prev, [path]: data.pid }));
-      } else {
-        setStatuses((prev) => ({ ...prev, [path]: "error" }));
-        console.error(data.error);
-      }
-    } catch (e) {
-      setStatuses((prev) => ({ ...prev, [path]: "error" }));
-    }
+  const launchProject = (path) => {
+    // Open the project in a new tab immediately
+    window.open(path, "_blank");
+    // Mark as "done" (opened)
+    setStatuses((prev) => ({ ...prev, [path]: "done" }));
   };
 
   const resetStatus = (path) => {
     setStatuses((prev) => ({ ...prev, [path]: "idle" }));
-    setPids((prev) => { const n = { ...prev }; delete n[path]; return n; });
   };
 
   return (
     <>
       <Head>
-        <title>Eduardo&apos;s Projects — Node.js Launcher</title>
+        <title>Eduardo's Projects — Launcher</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
       <div style={styles.root}>
-        {/* Background grid */}
         <div style={styles.grid} aria-hidden />
 
-        {/* Header */}
         <header style={styles.header}>
           <div style={styles.headerLeft}>
             <div style={styles.logo}>
@@ -149,7 +132,10 @@ export default function Home() {
               <button
                 key={l}
                 onClick={() => setLang(l)}
-                style={{ ...styles.langBtn, ...(lang === l ? styles.langBtnActive : {}) }}
+                style={{
+                  ...styles.langBtn,
+                  ...(lang === l ? styles.langBtnActive : {}),
+                }}
               >
                 {l.toUpperCase()}
               </button>
@@ -157,7 +143,6 @@ export default function Home() {
           </div>
         </header>
 
-        {/* Controls */}
         <div style={styles.controls}>
           <input
             type="text"
@@ -171,7 +156,10 @@ export default function Home() {
               <button
                 key={cat}
                 onClick={() => setFilter(cat)}
-                style={{ ...styles.filterBtn, ...(filter === cat ? styles.filterBtnActive : {}) }}
+                style={{
+                  ...styles.filterBtn,
+                  ...(filter === cat ? styles.filterBtnActive : {}),
+                }}
               >
                 {t(cat)}
               </button>
@@ -179,7 +167,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Grid */}
         <main style={styles.main}>
           {!loaded ? (
             <div style={styles.empty}>Loading…</div>
@@ -189,35 +176,59 @@ export default function Home() {
             <div style={styles.cardGrid}>
               {filtered.map((p, i) => {
                 const status = statuses[p.path] || "idle";
-                const pid = pids[p.path];
                 const icon = CATEGORY_ICONS[p.category] || CATEGORY_ICONS.default;
                 return (
-                  <div key={p.path} style={{ ...styles.card, animationDelay: `${i * 60}ms` }} className="card-anim">
+                  <div
+                    key={p.path}
+                    style={{ ...styles.card, animationDelay: `${i * 60}ms` }}
+                    className="card-anim"
+                  >
                     <div style={styles.cardTop}>
                       <span style={styles.cardIcon}>{icon}</span>
-                      <span style={{ ...styles.statusDot, background: STATUS_COLORS[status] }} />
+                      <span
+                        style={{
+                          ...styles.statusDot,
+                          background:
+                            status === "done"
+                              ? "var(--green)"
+                              : status === "error"
+                              ? "var(--red)"
+                              : "var(--text-dim)",
+                        }}
+                      />
                     </div>
                     <h3 style={styles.cardName}>{p.name}</h3>
                     <p style={styles.cardDesc}>{p.description}</p>
                     <div style={styles.cardPath}>{p.path}</div>
                     <div style={styles.cardFooter}>
                       <button
-                        onClick={() => status === "running" ? null : launchProject(p.path)}
-                        disabled={status === "running"}
+                        onClick={() => launchProject(p.path)}
+                        disabled={status === "done"}
                         style={{
                           ...styles.launchBtn,
-                          ...(status === "running" ? styles.launchBtnDisabled : {}),
+                          ...(status === "done" ? styles.launchBtnDisabled : {}),
                         }}
                       >
-                        {status === "running" ? t("status_running") + "…" : t("run")}
+                        {status === "done" ? t("status_done") : t("run")}
                       </button>
                       <div style={styles.statusRow}>
-                        <span style={{ ...styles.statusLabel, color: STATUS_COLORS[status] }}>
+                        <span
+                          style={{
+                            ...styles.statusLabel,
+                            color:
+                              status === "done"
+                                ? "var(--green)"
+                                : status === "error"
+                                ? "var(--red)"
+                                : "var(--text-dim)",
+                          }}
+                        >
                           {t(`status_${status}`)}
-                          {pid && status === "done" ? ` · ${t("pid")} ${pid}` : ""}
                         </span>
-                        {(status === "done" || status === "error") && (
-                          <button onClick={() => resetStatus(p.path)} style={styles.resetBtn}>↺</button>
+                        {status === "done" && (
+                          <button onClick={() => resetStatus(p.path)} style={styles.resetBtn}>
+                            ↺
+                          </button>
                         )}
                       </div>
                     </div>
@@ -228,17 +239,22 @@ export default function Home() {
           )}
         </main>
 
-        {/* Footer */}
         <footer style={styles.footer}>
           <span style={styles.footerText}>{t("hint")}</span>
-          <span style={styles.footerText}>Node.js Launcher v1.0</span>
+          <span style={styles.footerText}>Launcher v2.0</span>
         </footer>
       </div>
 
-      <style>{`
+      <style jsx>{`
         @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(12px); }
-          to   { opacity: 1; transform: translateY(0); }
+          from {
+            opacity: 0;
+            transform: translateY(12px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
         .card-anim {
           animation: fadeUp 0.35s ease both;
@@ -288,8 +304,18 @@ const styles = {
   headerLeft: { display: "flex", alignItems: "center", gap: "12px" },
   logo: { display: "flex", alignItems: "center", gap: "12px" },
   logoIcon: { fontSize: "28px", color: "var(--accent)", lineHeight: 1 },
-  logoTitle: { fontSize: "18px", fontWeight: 600, color: "var(--text)", letterSpacing: "-0.3px" },
-  logoSub: { fontSize: "11px", color: "var(--text-muted)", fontFamily: "'Space Mono', monospace", marginTop: "1px" },
+  logoTitle: {
+    fontSize: "18px",
+    fontWeight: 600,
+    color: "var(--text)",
+    letterSpacing: "-0.3px",
+  },
+  logoSub: {
+    fontSize: "11px",
+    color: "var(--text-muted)",
+    fontFamily: "'Space Mono', monospace",
+    marginTop: "1px",
+  },
   langBar: { display: "flex", gap: "6px" },
   langBtn: {
     background: "transparent",
@@ -368,7 +394,12 @@ const styles = {
     transition: "all 0.2s ease",
     cursor: "default",
   },
-  cardTop: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" },
+  cardTop: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "4px",
+  },
   cardIcon: { fontSize: "18px", color: "var(--accent)", fontFamily: "'Space Mono', monospace" },
   statusDot: { width: "8px", height: "8px", borderRadius: "50%", transition: "background 0.3s" },
   cardName: { fontSize: "16px", fontWeight: 600, color: "var(--text)", letterSpacing: "-0.2px" },
@@ -409,7 +440,13 @@ const styles = {
     cursor: "not-allowed",
     background: "var(--surface3)",
   },
-  statusRow: { display: "flex", alignItems: "center", gap: "6px", flex: 1, justifyContent: "flex-end" },
+  statusRow: {
+    display: "flex",
+    alignItems: "center",
+    gap: "6px",
+    flex: 1,
+    justifyContent: "flex-end",
+  },
   statusLabel: { fontSize: "12px", fontFamily: "'Space Mono', monospace", transition: "color 0.3s" },
   resetBtn: {
     background: "transparent",
