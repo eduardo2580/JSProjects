@@ -4,5 +4,11 @@
     "path": "/BMIwebapp/index.html",
     "description": "Calculate your BMI and get a personalized nutritional plan",
     "category": "webapp"
+  },
+  {
+    "name": "Tic Tac Toe Game",
+    "path": "/TicTacToeGame/index.js",
+    "description": "A classic Tic Tac Toe game for two players",
+    "category": "Game"
   }
 ]
