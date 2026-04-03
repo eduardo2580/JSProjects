@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Health Calculator & Nutritional Plan</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 data-translate="title">BMI Health Calculator & Nutritional Plan</h1>
+            <div class="language-switcher">
+                <button onclick="changeLanguage('en')">English</button>
+                <button onclick="changeLanguage('pt')">Português</button>
+                <button onclick="changeLanguage('es')">Español</button>
+            </div>
+        </header>
+
+        <main>
+            <section class="calculator">
+                <div class="input-group">
+                    <label for="weight" data-translate="weightLabel">Weight (kg):</label>
+                    <input type="number" id="weight" placeholder="Enter your weight">
+                </div>
+                <div class="input-group">
+                    <label for="height" data-translate="heightLabel">Height (cm):</label>
+                    <input type="number" id="height" placeholder="Enter your height">
+                </div>
+                <div class="input-group">
+                    <label for="age" data-translate="ageLabel">Age:</label>
+                    <input type="number" id="age" placeholder="Enter your age">
+                </div>
+                <div class="input-group">
+                    <label for="gender" data-translate="genderLabel">Gender:</label>
+                    <select id="gender">
+                        <option value="male" data-translate="maleOption">Male</option>
+                        <option value="female" data-translate="femaleOption">Female</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="goal" data-translate="goalLabel">Select Your Goal:</label>
+                    <select id="goal">
+                        <option value="lose" data-translate="loseWeightOption">Lose Weight</option>
+                        <option value="maintain" data-translate="maintainWeightOption">Maintain Weight</option>
+                        <option value="gain" data-translate="gainWeightOption">Gain Weight</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="activity" data-translate="activityLabel">Select Your Activity Level:</label>
+                    <select id="activity">
+                        <option value="sedentary" data-translate="sedentaryOption">Sedentary (little or no exercise)</option>
+                        <option value="light" data-translate="lightActivityOption">Lightly active (light exercise/sports 1-3 days/week)</option>
+                        <option value="moderate" data-translate="moderateActivityOption">Moderately active (moderate exercise/sports 3-5 days/week)</option>
+                        <option value="active" data-translate="activeActivityOption">Very active (hard exercise/sports 6-7 days a week)</option>
+                        <option value="extra" data-translate="extraActiveActivityOption">Extra active (very hard exercise/sports & physical job)</option>
+                    </select>
+                </div>
+                <div class="buttons">
+                    <button id="calculate" data-translate="calculateButton">Calculate</button>
+                    <button id="reset" type="reset" data-translate="resetButton">Reset</button>
+                </div>
+            </section>
+
+            <section class="results">
+                <h2 data-translate="resultsTitle">Results</h2>
+                <div id="bmi-result"></div>
+                <div id="nutritional-plan"></div>
+            </section>
+
+            <section class="about">
+                <h2 data-translate="aboutTitle">About BMI & Nutritional Plan</h2>
+                <p data-translate="aboutText">
+                    Body Mass Index (BMI) is a measure of body fat based on height and weight that applies to adult men and women.
+                    Our nutritional plan provides recommendations based on your BMI, activity level, and goals.
+                    It's important to consult with a healthcare professional before making significant changes to your diet or exercise routine.
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <p data-translate="footerText">&copy; 2023 BMI Health Calculator</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

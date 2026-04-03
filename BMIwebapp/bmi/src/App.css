@@ -1,0 +1,421 @@
+/* 
+  App.css - BMI Web App Main Stylesheet
+
+  Theme Variables:
+    - Defines color palette using CSS variables for primary, secondary, success, warning, danger, light, and dark.
+
+  Global Styles:
+    - Applies box-sizing, resets margin/padding, and sets default font family.
+    - Sets a gradient background for the body.
+
+  Layout:
+    - .app: Flex container for main layout, centers content, adds padding and gap.
+    - .container, .information-card: Card-like containers with padding, border-radius, shadow, and responsive width.
+    - .container:hover: Adds lift effect on hover.
+
+  Language Switcher:
+    - .language-switcher: Flex row for language buttons.
+    - .language-switcher button: Styled buttons with hover and disabled states.
+
+  Typography:
+    - h2, h3: Styled headings with color, margin, weight, and alignment.
+
+  Form Elements:
+    - .input-group: Spacing for input sections.
+    - .input-header: Flex row for label and unit toggle.
+    - .unit-toggle: Button for switching units.
+    - label: Block display, color, and weight.
+    - input: Styled input fields with focus effect.
+    - .radio-group, .radio-label: Flex layout for radio options.
+
+  Buttons:
+    - .button-group: Flex row for action buttons.
+    - .btn, .btn-primary, .btn-reset: Button styles with hover effects.
+
+  Result Display:
+    - .result-card: Card for BMI result with fade-in animation.
+    - .bmi-value: Large, bold BMI number.
+    - .category-indicator: Circular indicator for BMI category.
+
+  Progress Bar:
+    - .progress-container, .progress-bar, .progress-fill: Horizontal progress bar with animated fill.
+    - .progress-labels, .progress-categories: Labels for progress bar.
+    - .marker: Marker for specific points on the bar.
+
+  Health Risks:
+    - .health-risks: Box for health risk info, with heading and list.
+
+  Miscellaneous:
+    - .disclaimer: Small, italic disclaimer text.
+    - .error-message: Hidden by default, shown on error.
+
+  History Section:
+    - .history-section: Section for BMI calculation history.
+    - .history-header: Flex row for history title and clear button.
+    - .btn-clear: Button to clear history.
+    - .history-item: Row for each history entry.
+    - .history-date, .history-details, .history-bmi, .history-category: Styles for history details.
+
+  Responsive Design:
+    - Adjusts padding, button group, and radio group layout for small screens.
+
+  Information Card:
+    - .information-card h3, p, ul: Spacing and alignment for informational content.
+*/
+:root {
+  --primary: #2A2A72;
+  --secondary: #009FFD;
+  --success: #2DC653;
+  --warning: #FFA400;
+  --danger: #FF3C3C;
+  --light: #F8F9FA;
+  --dark: #212529;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  min-height: 100vh;
+  gap: 2rem;
+}
+
+.language-switcher {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.language-switcher button {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  margin: 0 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s;
+}
+
+.language-switcher button:hover {
+  background-color: #e0e0e0;
+}
+
+.language-switcher button:disabled {
+  background-color: #ddd;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.container {
+  background: white;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 500px;
+  transition: transform 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-5px);
+}
+
+.information-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+h2, h3 {
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.unit-toggle {
+  background: none;
+  border: none;
+  color: var(--secondary);
+  font-size: 0.875rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+label {
+  display: block;
+  color: var(--dark);
+  font-weight: 500;
+}
+
+input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.radio-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn {
+  flex: 1;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #1A1A4A;
+}
+
+.btn-reset {
+  background: var(--light);
+  color: var(--dark);
+  border: 2px solid #e0e0e0;
+}
+
+.btn-reset:hover {
+  background: #e0e0e0;
+}
+
+.result-card {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.bmi-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.category-indicator {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 1rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: white;
+}
+
+.progress-container {
+  margin: 1.5rem 0;
+}
+
+.progress-bar {
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin: 0.5rem 0;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.progress-labels, .progress-categories {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--dark);
+}
+
+.marker {
+  position: absolute;
+  height: 15px;
+  width: 2px;
+  background-color: #333;
+  top: -3px;
+}
+
+.health-risks {
+  margin-top: 1.5rem;
+  text-align: left;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.health-risks h4 {
+  margin-bottom: 0.5rem;
+  color: var(--dark);
+}
+
+.health-risks ul {
+  margin-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.disclaimer {
+  font-size: 0.75rem;
+  font-style: italic;
+  color: #666;
+}
+
+.error-message {
+  color: var(--danger);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: none;
+}
+
+.error-message.show {
+  display: block;
+}
+
+.history-section {
+  margin-top: 2rem;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 1.5rem;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.history-header h3 {
+  margin-bottom: 0;
+}
+
+.btn-clear {
+  background: none;
+  border: none;
+  color: var(--danger);
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.history-date {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.history-details {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.history-bmi {
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.history-category {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+@media (max-width: 480px) {
+  .container, .information-card {
+    padding: 1.5rem;
+  }
+  
+  .button-group {
+    flex-direction: column;
+  }
+  
+  .radio-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+.information-card h3 {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.information-card p, .information-card ul {
+  margin-bottom: 1rem;
+}
+
+.information-card ul {
+  margin-left: 1.5rem;
+}

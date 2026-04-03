@@ -1,0 +1,287 @@
+:root {
+    --primary-color: #6200EE;
+    --primary-variant-color: #3700B3;
+    --secondary-color: #03DAC6;
+    --background-color: #FFFFFF;
+    --surface-color: #FFFFFF;
+    --error-color: #B00020;
+    --on-primary-color: #FFFFFF;
+    --on-secondary-color: #000000;
+    --on-background-color: #000000;
+    --on-surface-color: #000000;
+    --on-error-color: #FFFFFF;
+
+    --text-font-family: 'Roboto', sans-serif;
+    --border-radius: 8px;
+    --elevation-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    --elevation-2: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+body {
+    font-family: var(--text-font-family);
+    background-color: var(--background-color);
+    color: var(--on-background-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top */
+    min-height: 100vh;
+    padding-top: 20px; /* Add some padding at the top */
+    box-sizing: border-box;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--elevation-2);
+    padding: 24px;
+    margin: 16px; /* Add margin for smaller screens */
+    box-sizing: border-box;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 16px;
+}
+
+header h1 {
+    color: var(--primary-color);
+    font-size: 24px;
+    margin: 0;
+}
+
+.language-switcher button {
+    background-color: var(--primary-color);
+    color: var(--on-primary-color);
+    border: none;
+    padding: 8px 12px;
+    margin-left: 8px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.language-switcher button:hover {
+    background-color: var(--primary-variant-color);
+}
+
+.calculator {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+@media (min-width: 600px) {
+    .calculator {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--on-surface-color);
+}
+
+.input-group input,
+.input-group select {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(98, 0, 238, 0.2);
+}
+
+.buttons {
+    grid-column: 1 / -1; /* Span across all columns in grid */
+    display: flex;
+    gap: 16px;
+    justify-content: flex-end;
+}
+
+.buttons button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#calculate {
+    background-color: var(--primary-color);
+    color: var(--on-primary-color);
+}
+
+#calculate:hover {
+    background-color: var(--primary-variant-color);
+    box-shadow: var(--elevation-1);
+}
+
+#reset {
+    background-color: #e0e0e0; /* Light grey */
+    color: var(--on-surface-color);
+}
+
+#reset:hover {
+    background-color: #d5d5d5;
+    box-shadow: var(--elevation-1);
+}
+
+.results, .about {
+    margin-bottom: 24px;
+    padding: 16px;
+    background-color: #f5f5f5;
+    border-radius: var(--border-radius);
+}
+
+.results h2, .about h2 {
+    color: var(--primary-color);
+    margin-top: 0;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+}
+
+#bmi-result {
+    font-size: 18px;
+    /* font-weight: bold; Applied to specific p tags now */
+    margin-bottom: 10px;
+}
+
+#bmi-result p { /* Style for BMI value and category */
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+
+#bmi-result h4 { /* Health Considerations heading */
+    font-size: 1.1em;
+    color: var(--primary-color);
+    margin-top: 16px;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+#bmi-result ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-bottom: 10px;
+    font-size: 0.95em;
+    font-weight: normal;
+}
+
+#bmi-result ul li {
+    margin-bottom: 5px;
+    line-height: 1.5;
+}
+
+#bmi-result small { /* BMI Disclaimer */
+    font-size: 0.8em;
+    color: #555;
+    font-weight: normal;
+}
+
+
+#nutritional-plan h3 { /* Nutritional Plan Suggestion title */
+    font-size: 1.2em;
+    color: var(--primary-color);
+    margin-top: 0; /* Already in .results h2 style but good to be explicit if needed */
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+}
+#nutritional-plan h4 { /* Macronutrient Distribution heading */
+    font-size: 1.1em;
+    color: var(--primary-color);
+    margin-top: 16px;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+#nutritional-plan ul {
+    list-style-type: none; /* Remove bullets for macros */
+    padding-left: 0;
+    margin-bottom: 10px;
+    font-size: 1em;
+}
+
+#nutritional-plan ul li {
+    margin-bottom: 6px;
+    line-height: 1.6;
+}
+
+#nutritional-plan p { /* General paragraphs in nutritional plan, like disclaimer */
+    line-height: 1.6;
+    font-size: 0.95em;
+}
+
+.about p {
+    line-height: 1.6;
+    color: var(--on-surface-color);
+}
+
+footer {
+    text-align: center;
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid #eee;
+    font-size: 14px;
+    color: #757575;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    header h1 {
+        margin-bottom: 16px;
+    }
+
+    .language-switcher {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 16px;
+    }
+
+    .language-switcher button {
+        margin-left: 0;
+        flex-grow: 1;
+    }
+     .language-switcher button:not(:last-child) {
+        margin-right: 8px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+    .buttons button {
+        width: 100%;
+    }
+}
