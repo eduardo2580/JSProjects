@@ -1,0 +1,224 @@
+/* ── Reset ── */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ── Page ── */
+body {
+    background: radial-gradient(ellipse at 50% 110%, #0a2040 0%, #050d1a 60%, #020508 100%);
+    min-height: 100vh;
+    overflow: hidden;
+    cursor: url("target.png"), crosshair;
+    font-family: "Courier New", monospace;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* ── Stars (injected by JS) ── */
+.star {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    opacity: 0;
+    animation: twinkle linear infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.1; }
+    50%       { opacity: 0.8; }
+}
+
+/* ── HUD ── */
+#hud {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 18px;
+    background: rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(80, 200, 255, 0.2);
+    z-index: 10;
+}
+
+.hud-item {
+    font-size: 16px;
+    color: rgba(150, 220, 255, 0.7);
+    letter-spacing: 1px;
+}
+
+.hud-item span {
+    color: #7ef0ff;
+    font-weight: bold;
+}
+
+#timer.danger {
+    color: #ff6060 !important;
+    animation: blink 0.5s ease infinite alternate;
+}
+
+@keyframes blink {
+    from { opacity: 1; }
+    to   { opacity: 0.3; }
+}
+
+/* ── Aliens ── */
+.alien {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: url("target.png"), crosshair;
+    transition: left 0.35s cubic-bezier(.4, 2, .6, 1),
+                top  0.35s cubic-bezier(.4, 2, .6, 1),
+                opacity 0.2s,
+                transform 0.2s;
+}
+
+.alien-body {
+    font-size: 42px;
+    line-height: 1;
+    filter: drop-shadow(0 0 8px rgba(100, 255, 200, 0.5));
+}
+
+.alien:active .alien-body {
+    transform: scale(0.85);
+}
+
+/* HP bar */
+.hp-bar-wrap {
+    width: 48px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+    margin-top: 4px;
+    overflow: hidden;
+}
+
+.hp-bar {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.15s, background 0.3s;
+}
+
+/* hit shake */
+.alien.hit {
+    animation: shake 0.18s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25%       { transform: translateX(-7px); }
+    75%       { transform: translateX(7px); }
+}
+
+/* ── Hit / zap effects ── */
+.hit-fx, .zap-fx {
+    position: absolute;
+    font-size: 26px;
+    pointer-events: none;
+    z-index: 12;
+}
+
+.hit-fx {
+    animation: hitpop 0.45s ease forwards;
+}
+
+.zap-fx {
+    animation: zappop 0.5s ease forwards;
+}
+
+@keyframes hitpop {
+    0%   { transform: scale(0.5); opacity: 1; }
+    100% { transform: scale(1.8); opacity: 0; }
+}
+
+@keyframes zappop {
+    0%   { transform: scale(0.4) rotate(-20deg); opacity: 1; }
+    100% { transform: scale(2)   rotate( 20deg); opacity: 0; }
+}
+
+/* ── Miss flash ── */
+.miss-flash {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 60, 60, 0.2);
+    pointer-events: none;
+    animation: mflash 0.25s ease forwards;
+    z-index: 15;
+}
+
+@keyframes mflash {
+    0%   { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* ── Ground ── */
+#ground {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 52px;
+    background: linear-gradient(to top, #0e1f12, #152a19);
+    border-top: 1px solid #1e4a28;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 26px;
+    z-index: 5;
+}
+
+/* ── Overlay (start / game-over screen) ── */
+#overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    background: rgba(0, 0, 0, 0.78);
+    z-index: 20;
+}
+
+#overlay h2 {
+    font-size: 36px;
+    color: #7ef0ff;
+    letter-spacing: 3px;
+}
+
+#overlay p {
+    font-size: 15px;
+    color: rgba(200, 240, 255, 0.75);
+    text-align: center;
+    line-height: 1.8;
+}
+
+#overlay strong {
+    color: #7ef0ff;
+}
+
+#start-btn {
+    margin-top: 10px;
+    padding: 12px 40px;
+    font-size: 16px;
+    font-family: "Courier New", monospace;
+    letter-spacing: 2px;
+    background: transparent;
+    border: 1px solid rgba(100, 220, 255, 0.55);
+    color: #7ef0ff;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+#start-btn:hover {
+    background: rgba(100, 220, 255, 0.12);
+}

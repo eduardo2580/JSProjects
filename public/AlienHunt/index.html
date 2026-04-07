@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Alien Hunt</title>
+        <link rel="stylesheet" href="alienhunt.css">
+    </head>
+    <body>
+        <div id="hud">
+            <span class="hud-item">SCORE: <span id="score">0</span></span>
+            <span class="hud-item">TIME: <span id="timer">30</span></span>
+            <span class="hud-item">MISSES: <span id="misses">0</span> / 10</span>
+            <span class="hud-item">WAVE: <span id="wave">1</span></span>
+        </div>
+
+        <div id="overlay">
+            <h2>👾 ALIEN HUNT</h2>
+            <p>Click aliens to shoot them.<br>Each alien takes multiple hits to defeat.<br>Don't miss too many times — and beat the clock!</p>
+            <button id="start-btn">START GAME</button>
+        </div>
+
+        <div id="ground"></div>
+
+        <script src="alienhunt.js"></script>
+    </body>
+</html>

@@ -52,5 +52,11 @@
     "path": "/DiscordPage/index.html",
     "description": "A clone of the Discord Page",
     "category": "Clone"
+  },
+  {
+    "name": "Alien Hunt Game",
+    "path": "/AlienHunt/index.html",
+    "description": "A classic Alien Hunt game for players",
+    "category": "Game"
   }
 ]
