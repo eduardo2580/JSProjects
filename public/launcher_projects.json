@@ -94,5 +94,11 @@
     "path": "/FlappyBird/index.html",
     "description": "A classic Flappy Bird game for players",
     "category": "Game"
+  },
+  {
+    "name": "Space Invaders",
+    "path": "/SpaceInvaders/index.html",
+    "description": "A classic Space Invaders game for players",
+    "category": "Game"
   }
 ]
