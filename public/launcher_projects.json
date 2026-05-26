@@ -88,5 +88,11 @@
     "path": "/PongGame/index.html",
     "description": "A classic Pong game for players",
     "category": "Game"
+  },
+  {
+    "name": "Flappy Bird",
+    "path": "/FlappyBird/index.html",
+    "description": "A classic Flappy Bird game for players",
+    "category": "Game"
   }
 ]
